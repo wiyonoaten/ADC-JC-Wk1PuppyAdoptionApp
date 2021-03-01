@@ -17,6 +17,7 @@ fun AppScaffold(
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 navigationIcon = { Icon(

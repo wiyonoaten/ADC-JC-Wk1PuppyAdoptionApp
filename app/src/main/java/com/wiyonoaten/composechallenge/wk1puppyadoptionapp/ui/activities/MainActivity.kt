@@ -86,11 +86,13 @@ private fun ActivityScreen(listViewModel: ListViewModel) { with(listViewModel) {
 
 @Composable
 private fun PuppyChooser(
+    modifier: Modifier = Modifier,
     puppyList: List<Puppy>,
     onRefresh: () -> Unit = {},
     onPuppySelected: (Puppy) -> Unit = {}
 ) {
     AppScaffold(
+        modifier,
         floatingActionButton = {
             FloatingActionButton(onClick = onRefresh) {
                 Icon(
@@ -124,10 +126,11 @@ private fun PuppyChooser(
 
 @Composable
 private fun PuppyList(
+    modifier: Modifier = Modifier,
     puppyList: List<Puppy>,
     onPuppySelected: (Puppy) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(modifier) {
         items(puppyList) {
             Card(
                 border = BorderStroke(1.dp, Color.Gray),
@@ -178,7 +181,7 @@ private fun DefaultPreview() {
         )
 
         Wk1PuppyAdoptionAppTheme {
-            PuppyChooser(sampleList)
+            PuppyChooser(puppyList = sampleList)
         }
     }
 }

@@ -30,6 +30,9 @@ class DetailsViewModel(
     var photoUrl: String? by mutableStateOf(null)
         private set
 
+    var description: String? by mutableStateOf(null)
+        private set
+
     // endregion
 
     // region Events
@@ -43,6 +46,7 @@ class DetailsViewModel(
                 breed = it.breed
                 birthdate = it.birthdate
                 photoUrl = it.photoUrl
+                description = it.description
             }
         }
     }
