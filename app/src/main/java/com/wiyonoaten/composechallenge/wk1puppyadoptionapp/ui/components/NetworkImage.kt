@@ -53,6 +53,7 @@ fun NetworkImage(
         Image(
             painterResource(id = placeholderResId ?: R.drawable.ic_placeholder),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = modifier
         )
         return

@@ -217,14 +217,25 @@ private fun PuppyList(
 
 @Preview(showBackground = true)
 @Composable
-private fun DefaultPreview() {
+private fun LightThemePreview() {
+    MainPreview(darkTheme = false)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DarkThemePreview() {
+    MainPreview(darkTheme = true)
+}
+
+@Composable
+private fun MainPreview(darkTheme: Boolean) {
     CompositionLocalProvider(LocalPreviewMode provides true) {
         val sampleList = listOf(
             Puppy("1", "Shinu", "Shiba Inu", OffsetDateTime.parse("2009-01-09T00:00+00:00")),
             Puppy("2", "Sheppy", "German Shepherd", OffsetDateTime.parse("2016-01-01T00:00+00:00"))
         )
 
-        Wk1PuppyAdoptionAppTheme {
+        Wk1PuppyAdoptionAppTheme(darkTheme) {
             PuppyChooser(isLoading = false, puppyList = sampleList)
         }
     }

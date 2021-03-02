@@ -209,7 +209,18 @@ private fun PuppyDescription(
 
 @Preview(showBackground = true)
 @Composable
-private fun DefaultPreview() {
+private fun LightThemePreview() {
+    MainPreview(darkTheme = false)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DarkThemePreview() {
+    MainPreview(darkTheme = true)
+}
+
+@Composable
+private fun MainPreview(darkTheme: Boolean) {
     CompositionLocalProvider(LocalPreviewMode provides true) {
         val samplePuppy = Puppy(
             "1", "Shinu", "Shiba Inu", OffsetDateTime.parse("2009-01-09T00:00+00:00"),
@@ -218,7 +229,7 @@ private fun DefaultPreview() {
 Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. Ac odio tempor orci dapibus ultrices in. Ut ornare lectus sit amet. Amet aliquam id diam maecenas ultricies mi eget mauris pharetra. Dolor purus non enim praesent elementum facilisis leo vel. Eu facilisis sed odio morbi quis commodo odio. Facilisi nullam vehicula ipsum a arcu cursus. Semper risus in hendrerit gravida rutrum quisque. Arcu risus quis varius quam quisque id diam. Cras pulvinar mattis nunc sed blandit. Fusce ut placerat orci nulla pellentesque dignissim enim sit. Rhoncus mattis rhoncus urna neque viverra justo nec ultrices dui. In ornare quam viverra orci sagittis eu volutpat. Velit egestas dui id ornare. Eu sem integer vitae justo eget magna fermentum iaculis."""
         )
 
-        Wk1PuppyAdoptionAppTheme {
+        Wk1PuppyAdoptionAppTheme(darkTheme) {
             with(samplePuppy) {
                 PuppyDetailsViewer(
                     isLoading = false,
