@@ -1,6 +1,9 @@
 package com.wiyonoaten.composechallenge.wk1puppyadoptionapp.repositories
 
 import com.wiyonoaten.composechallenge.wk1puppyadoptionapp.models.Puppy
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -80,13 +83,21 @@ Posuere urna nec tincidunt praesent semper feugiat nibh. Consectetur purus ut fa
 
 class PuppyRepository {
 
-    suspend fun loadPuppyList(): List<Puppy> = suspendCoroutine {
-        it.resume(FIXED_LIST)
+    suspend fun loadPuppyList(): List<Puppy> = suspendCoroutine { continuation ->
+        var isFirstTime = true
+        CoroutineScope(continuation.context).launch {
+            delay(if (isFirstTime) 1000 else 300)
+            isFirstTime = false
+            continuation.resume(FIXED_LIST)
+        }
     }
 
     suspend fun loadPuppyDetails(id: String): Puppy = suspendCoroutine { continuation ->
-        FIXED_LIST.find { it.id == id }?.let {
-            continuation.resume(it)
-        } ?: continuation.resumeWithException(Exception("Something wrong. Puppy with requested id does not exist!"))
+        CoroutineScope(continuation.context).launch {
+            delay(400)
+            FIXED_LIST.find { it.id == id }?.let {
+                continuation.resume(it)
+            } ?: continuation.resumeWithException(Exception("Something wrong. Puppy with requested id does not exist!"))
+        }
     }
 }

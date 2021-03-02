@@ -18,6 +18,9 @@ class DetailsViewModel(
 
     // region States
 
+    var isLoading: Boolean by mutableStateOf(false)
+        private set
+
     var name: String by mutableStateOf("Name")
         private set
 
@@ -41,6 +44,7 @@ class DetailsViewModel(
 
     init {
         coroutineScope.launch {
+            isLoading = true
             repository.loadPuppyDetails(puppyId).let {
                 name = it.name
                 breed = it.breed
@@ -48,6 +52,7 @@ class DetailsViewModel(
                 photoUrl = it.photoUrl
                 description = it.description
             }
+            isLoading = false
         }
     }
 }

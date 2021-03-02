@@ -5,15 +5,13 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -67,18 +65,22 @@ class DetailsActivity : AppCompatActivity() {
 
 @Composable
 private fun ActivityScreen(detailsViewModel: DetailsViewModel) { with(detailsViewModel) {
-    PuppyDetailsViewer(details = PuppyDetails(
-        name = name,
-        breed = breed,
-        birthdate = birthdate,
-        photoUrl = photoUrl,
-        description = description
-    ))
+    PuppyDetailsViewer(
+        isLoading = isLoading,
+        details = PuppyDetails(
+            name = name,
+            breed = breed,
+            birthdate = birthdate,
+            photoUrl = photoUrl,
+            description = description
+        )
+    )
 }}
 
 @Composable
 private fun PuppyDetailsViewer(
     modifier: Modifier = Modifier,
+    isLoading: Boolean,
     details: PuppyDetails,
 ) {
     AppScaffold(
@@ -92,20 +94,29 @@ private fun PuppyDetailsViewer(
             }
         }
     ) {
-        LazyColumn {
-            item {
-                PuppyInfoCard(details = details)
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
-            if (details.description != null) {
+        } else {
+            LazyColumn {
                 item {
-                    PuppyDescription(
-                        descriptionText = details.description,
-                        modifier = Modifier.padding(top = 5.dp)
-                    )
+                    PuppyInfoCard(details = details)
                 }
-            }
-            item {
-                Spacer(Modifier.padding(vertical = 35.dp))
+                if (details.description != null) {
+                    item {
+                        PuppyDescription(
+                            descriptionText = details.description,
+                            modifier = Modifier.padding(top = 5.dp)
+                        )
+                    }
+                }
+                item {
+                    Spacer(Modifier.padding(vertical = 35.dp))
+                }
             }
         }
     }
@@ -179,13 +190,16 @@ Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagit
 
         Wk1PuppyAdoptionAppTheme {
             with(samplePuppy) {
-                PuppyDetailsViewer(details = PuppyDetails(
-                    name = name,
-                    breed = breed,
-                    birthdate = birthdate,
-                    photoUrl = photoUrl,
-                    description = description
-                ))
+                PuppyDetailsViewer(
+                    isLoading = false,
+                    details = PuppyDetails(
+                        name = name,
+                        breed = breed,
+                        birthdate = birthdate,
+                        photoUrl = photoUrl,
+                        description = description
+                    )
+                )
             }
         }
     }

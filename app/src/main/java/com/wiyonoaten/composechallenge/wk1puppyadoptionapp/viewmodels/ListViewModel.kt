@@ -10,12 +10,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class ListViewModel(
-    coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope
 ) : ViewModel() {
 
     private val repository = PuppyRepository()
 
     // region States
+
+    var isLoading: Boolean by mutableStateOf(false)
+        private set
 
     var puppies: List<Puppy> by mutableStateOf(emptyList())
         private set
@@ -28,7 +31,9 @@ class ListViewModel(
     // region Events
 
     fun onRefresh() {
-        puppies = puppies.shuffled()
+        coroutineScope.launch {
+            doRefresh()
+        }
     }
 
     fun onPuppySelected(puppy: Puppy) {
@@ -43,7 +48,13 @@ class ListViewModel(
 
     init {
         coroutineScope.launch {
-            puppies = repository.loadPuppyList()
+            doRefresh()
         }
+    }
+
+    private suspend fun doRefresh() {
+        isLoading = true
+        puppies = repository.loadPuppyList().shuffled()
+        isLoading = false
     }
 }

@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 @Composable
 private fun ActivityScreen(listViewModel: ListViewModel) { with(listViewModel) {
     PuppyChooser(
+        isLoading = isLoading,
         puppyList = puppies,
         onRefresh = ::onRefresh,
         onPuppySelected = ::onPuppySelected
@@ -87,6 +88,7 @@ private fun ActivityScreen(listViewModel: ListViewModel) { with(listViewModel) {
 @Composable
 private fun PuppyChooser(
     modifier: Modifier = Modifier,
+    isLoading: Boolean,
     puppyList: List<Puppy>,
     onRefresh: () -> Unit = {},
     onPuppySelected: (Puppy) -> Unit = {}
@@ -116,10 +118,19 @@ private fun PuppyChooser(
                     .padding(top = 10.dp)
             )
             Spacer(Modifier.padding(5.dp))
-            PuppyList(
-                puppyList = puppyList,
-                onPuppySelected = onPuppySelected
-            )
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                PuppyList(
+                    puppyList = puppyList,
+                    onPuppySelected = onPuppySelected
+                )
+            }
         }
     }
 }
@@ -181,7 +192,7 @@ private fun DefaultPreview() {
         )
 
         Wk1PuppyAdoptionAppTheme {
-            PuppyChooser(puppyList = sampleList)
+            PuppyChooser(isLoading = false, puppyList = sampleList)
         }
     }
 }
