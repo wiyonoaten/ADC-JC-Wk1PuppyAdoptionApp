@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Wiyono Aten
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wiyonoaten.composechallenge.wk1puppyadoptionapp.ui.activities
 
 import android.content.Intent
@@ -7,11 +22,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
@@ -67,23 +96,27 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-private fun ActivityScreen(listViewModel: ListViewModel) { with(listViewModel) {
-    PuppyChooser(
-        isLoading = isLoading,
-        puppyList = puppies,
-        onRefresh = ::onRefresh,
-        onPuppySelected = ::onPuppySelected
-    )
+private fun ActivityScreen(listViewModel: ListViewModel) {
+    with(listViewModel) {
+        PuppyChooser(
+            isLoading = isLoading,
+            puppyList = puppies,
+            onRefresh = ::onRefresh,
+            onPuppySelected = ::onPuppySelected
+        )
 
-    listViewModel.selectedPuppy?.let {
-        with(LocalContext.current) {
-            startActivity(Intent(this, DetailsActivity::class.java).apply {
-                putExtra(EXTRA_KEY_PUPPY_ID, it.id)
-            })
+        listViewModel.selectedPuppy?.let {
+            with(LocalContext.current) {
+                startActivity(
+                    Intent(this, DetailsActivity::class.java).apply {
+                        putExtra(EXTRA_KEY_PUPPY_ID, it.id)
+                    }
+                )
+            }
+            listViewModel.onPuppyUnselected(it)
         }
-        listViewModel.onPuppyUnselected(it)
     }
-}}
+}
 
 @Composable
 private fun PuppyChooser(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Wiyono Aten
+ * Copyright $YEAR Wiyono Aten
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wiyonoaten.composechallenge.wk1puppyadoptionapp
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    // Add unit tests here
-}
